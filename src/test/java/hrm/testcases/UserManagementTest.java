@@ -1,0 +1,57 @@
+package hrm.testcases;
+
+
+import hrm.common.BaseTest;
+import hrm.common.DataTest;
+import hrm.pages.BasePage;
+import hrm.pages.LoginPage;
+import hrm.pages.UserMangementPage;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class UserManagementTest extends BaseTest {
+    LoginPage loginPage;
+    BasePage basePage;
+    UserMangementPage userMangementPage;
+
+    @BeforeMethod
+    public void initPage() {
+        loginPage = new LoginPage();
+        basePage = new BasePage();
+        userMangementPage = new UserMangementPage();
+    }
+    @Test(priority = 1)
+    public void testAddNewUser(){
+        loginPage.loginHRM("Admin","admin123");
+        basePage.clickMenuAdmin();
+        userMangementPage.addNewUser(DataTest.role,DataTest.status,DataTest.employee_name,DataTest.username_addnew,DataTest.password_addnew,DataTest.confirmpassword_addnew);
+        userMangementPage.verifySuccessMessageIsDisplayed();
+        userMangementPage.verifyUserIsDisplayedInTable(DataTest.username_addnew);
+    }
+    @Test(priority = 2)
+    public void testLoginSuccessWithRegisteredAccount(){
+        loginPage.loginHRM(DataTest.username_addnew,DataTest.password_addnew);
+        basePage.verifyMainMenuDisplayed();
+    }
+    @Test(priority = 3)
+    public void testLoginFailWithInvalidCredential(){
+        loginPage.loginHRM(DataTest.username_addnew,"");
+        loginPage.verifyErrorInvalidCredentialDisplayed();
+    }
+    @Test(priority = 4)
+    public void testEditUser(){
+        loginPage.loginHRM("Admin","admin123");
+        basePage.clickMenuAdmin();
+        userMangementPage.editEmployeeName(DataTest.username_addnew);
+        userMangementPage.verifySuccessMessageIsDisplayed();
+        userMangementPage.verifyEmployeeNameIsUpdated(DataTest.username_addnew);
+    }
+    @Test(priority = 5)
+    public void testDeleteUser(){
+        loginPage.loginHRM("Admin","admin123");
+        basePage.clickMenuAdmin();
+        userMangementPage.deleteUser(DataTest.username_addnew);
+        userMangementPage.verifySuccessMessageIsDisplayed();
+        userMangementPage.verifyUserNotDisplayedInTable(DataTest.username_addnew);
+    }
+}
