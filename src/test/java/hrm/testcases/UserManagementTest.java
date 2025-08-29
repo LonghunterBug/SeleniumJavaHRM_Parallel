@@ -25,7 +25,7 @@ public class UserManagementTest extends BaseTest {
         loginPage.loginHRM("Admin","admin123");
         basePage.clickMenuAdmin();
         userMangementPage.addNewUser(DataTest.role,DataTest.status,DataTest.employee_name,DataTest.username_addnew,DataTest.password_addnew,DataTest.confirmpassword_addnew);
-        userMangementPage.verifySuccessMessageIsDisplayed();
+        basePage.verifySuccessMessageIsDisplayed();
         userMangementPage.verifyUserIsDisplayedInTable(DataTest.username_addnew);
     }
     @Test(priority = 2)
@@ -43,7 +43,7 @@ public class UserManagementTest extends BaseTest {
         loginPage.loginHRM("Admin","admin123");
         basePage.clickMenuAdmin();
         userMangementPage.editEmployeeName(DataTest.username_addnew);
-        userMangementPage.verifySuccessMessageIsDisplayed();
+        basePage.verifySuccessMessageIsDisplayed();
         userMangementPage.verifyEmployeeNameIsUpdated(DataTest.username_addnew);
     }
     @Test(priority = 5)
@@ -51,7 +51,7 @@ public class UserManagementTest extends BaseTest {
         loginPage.loginHRM("Admin","admin123");
         basePage.clickMenuAdmin();
         userMangementPage.deleteUser(DataTest.username_addnew);
-        userMangementPage.verifySuccessMessageIsDisplayed();
+        basePage.verifySuccessMessageIsDisplayed();
         userMangementPage.verifyUserNotDisplayedInTable(DataTest.username_addnew);
     }
 }

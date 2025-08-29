@@ -11,7 +11,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 public class BaseTest {
-
     @BeforeMethod
     @Parameters({"browser"})
     public void createDriver(@Optional("chrome") String browserName){

@@ -23,7 +23,7 @@ public class JobCategoryPage {
     // Add New Job Title form
     private By inputJobCategory = By.xpath("//label[text()='Name']/parent::div/following-sibling::div/input");
     private By buttonSave = By.xpath("//button[normalize-space()='Save']");
-    private By toastMessageSuccess = By.xpath("//div[contains(@class,'toast--success')]");
+
 
     public void clickMenuJobCategory() {
         WebUI.clickElement(topbarJob);
@@ -40,11 +40,10 @@ public class JobCategoryPage {
         int index = 0;
         WebUI.sleep(3);
         boolean check = false;
-        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
         List<WebElement> jobcategory = WebUI.getWebElements(listJobCategory);
         for (int i = 0; i < jobcategory.size(); i++) {
             if (jobcategory.get(i).getText().equals(category)) {
-                js.executeScript("arguments[0].scrollIntoView(true);", jobcategory.get(i));
+                WebUI.scrollToElementAtTop(jobcategory,i);
                 check = true;
                 index = i;
                 WebUI.logConsole("Index of job category: " + i);// Adjust index for the button position
@@ -56,7 +55,7 @@ public class JobCategoryPage {
         }
         List<WebElement> listButtonEdit = WebUI.getWebElements(buttonEdit);
         WebUI.logConsole("Click edit button for job category at index: " + index);
-        js.executeScript("arguments[0].style.border='3px solid red';", listButtonEdit.get(index));
+        WebUI.highlightElement(listButtonEdit,index);
         listButtonEdit.get(index).click();
         WebUI.clearTextWithKey(inputJobCategory);
         WebUI.setText(inputJobCategory, DataTest.job_category_edit);
@@ -67,11 +66,10 @@ public class JobCategoryPage {
         int index = 0;
         WebUI.sleep(3);
         boolean check = false;
-        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
         List<WebElement> jobcategory = WebUI.getWebElements(listJobCategory);
         for (int i = 0; i < jobcategory.size(); i++) {
             if (jobcategory.get(i).getText().equals(category)) {
-                js.executeScript("arguments[0].scrollIntoView(true);", jobcategory.get(i));
+                WebUI.scrollToElementAtTop(jobcategory,i);
                 check = true;
                 index = i;
                 WebUI.logConsole("Index of job category: " + i);// Adjust index for the button position
@@ -83,23 +81,19 @@ public class JobCategoryPage {
         }
         List<WebElement> listButtonDelete = WebUI.getWebElements(buttonDelete);
         WebUI.logConsole("Click delete button for job category at index: " + index);
-        js.executeScript("arguments[0].style.border='3px solid red';", listButtonDelete.get(index));
+        WebUI.highlightElement(listButtonDelete,index);
         listButtonDelete.get(index).click();
         WebUI.clickElement(buttonConfirmDelete);
     }
-    public void verifySuccessMessageIsDisplayed() {
-        WebUI.verifyDisplay(toastMessageSuccess,WebUI.isElementDisplayed(toastMessageSuccess),"Toast message not display");
-        WebUI.highlightElement(toastMessageSuccess);
-    }
+
     public void verifyJobCategoryIsDisplayedInTable(String category) {
         WebUI.sleep(5);
         boolean check = false;
         List<WebElement> e = WebUI.getWebElements(listJobCategory);
-        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
         for (WebElement element : e) {
             if (element.getText().equals(category)) {
-                js.executeScript("arguments[0].scrollIntoView(true);", element);
-                js.executeScript("arguments[0].style.border='3px solid red';", element);
+                WebUI.scrollToElementAtTop(element);
+                WebUI.highlightElement(element);
                 WebUI.sleep(2); // Nếu quay video thì cần sleep
                 WebUI.verifyDisplay(element,element.isDisplayed(), category + " is not displayed in the table.");
                 check = true;
