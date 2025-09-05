@@ -125,6 +125,29 @@ public class WebUI {
             Assert.fail("Error hovering mouse on element " + by + ": " + e.getMessage());
         }
     }
+    public static void hoverMouse(List<WebElement> elements, int index) {
+        try {
+            sleep(STEP_TIME);
+            Actions action = new Actions(DriverManager.getDriver());
+            WebElement element = elements.get(index);
+            action.moveToElement(element).perform();
+            logConsole("Hover mouse on element " + element.getText());
+        } catch (Exception e) {
+            logConsole("Error hovering mouse on element " + e + ": " + e.getMessage());
+            Assert.fail("Error hovering mouse on element " + e + ": " + e.getMessage());
+        }
+    }
+    public static void hoverMouse(WebElement element) {
+        try {
+            sleep(STEP_TIME);
+            Actions action = new Actions(DriverManager.getDriver());
+            action.moveToElement(element).perform();
+            logConsole("Hover mouse on element " + element.getText());
+        } catch (Exception e) {
+            logConsole("Error hovering mouse on element " + e + ": " + e.getMessage());
+            Assert.fail("Error hovering mouse on element " + e + ": " + e.getMessage());
+        }
+    }
 
     public static boolean isElementDisplayed(By by) {
         try {
